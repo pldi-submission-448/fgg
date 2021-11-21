@@ -15,13 +15,13 @@ go run . -fgg -dictpass -- dispatcher.fgg
 go run . -fgg -dictpassnoassertion -- dispatcher.fgg
 ```
 
-##Micro Benchmark 
+## Micro Benchmark 
 
 We assume the GOPATH is `~/go`.
 
 After running `go install .`, there should be an executable file 
 `~/go/bin/fgg`.
-Then use the shell scripts in `bencmark` directory.
+Then use the shell scripts in `benchmark` directory.
 For example, the command below executes the micro benchmarks
 ten times for each configuration, and prints the execution time.
 
