@@ -1,0 +1,29 @@
+package main;
+
+type Int1[type ] struct{};
+type Int2[type ] struct{};
+
+type Any[type] interface{};
+type Cell[type t Any[]] struct{
+    elem t
+};
+
+func (this Cell[type t Any[]]) add[type](elem t) Cell[t] {
+    return Cell[t]{elem}
+};
+
+func (this Cell[type t Any[]]) get[type]() t {
+    return this.elem
+};
+
+type Dummy[type] struct {};
+
+func (this Dummy[type]) CellTest[type t Any[]](elem t) Dummy[]{
+    c := Cell[t]{elem}.add[](elem);
+    d := c.get[]();
+    return Dummy[]{}
+};
+
+func main() {
+    _ = Dummy[]{}.CellTest[Int1[]](Int1[]{}).CellTest[Int2[]](Int2[]{})
+}

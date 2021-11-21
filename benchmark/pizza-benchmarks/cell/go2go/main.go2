@@ -1,0 +1,32 @@
+package main
+
+import "fmt"
+
+
+type any interface {};
+
+type Cell[t any] struct {
+	elem t
+}
+
+func (c *Cell[t]) add(elem t) {
+	c.elem = elem
+}
+
+func (c *Cell[t]) get() t {
+	return c.elem
+}
+
+func CellTest(iterations int) {
+	c := Cell[int]{0}
+	c.add(42)
+	for i := 0; i < iterations; i++ {
+		c.get()
+	}
+}
+
+func main() {
+fmt.Println(1)
+    CellTest(1000000)
+    fmt.Println(2)
+}

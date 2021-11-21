@@ -1,0 +1,30 @@
+package main;
+
+type Any[type ] interface{};
+type Dummy[type ] struct {};
+type Int[type ] struct {};
+type String[type ] struct {};
+
+type _map[type ] struct {};
+type Hashtable[type keyType Any[], valueType Any[]] struct {
+    _inner _map[type ]
+};
+
+func (this Hashtable[type keyType Any[], valueType Any[]]) get[type ](key keyType) valueType {
+    return key.(valueType)
+};
+
+func (this Hashtable[type keyType Any[], valueType Any[]]) set[type ](key keyType, value valueType) Dummy[] {
+    return Dummy[]{}
+};
+
+func (this Dummy[type ]) Main[type ]() Dummy[] {
+    x := Hashtable[Int[], String[]]{_map[]{}};
+    t1 := x.set[](Int[]{}, String[]{});
+    t2 := x.get[](Int[]{});
+    return this
+};
+
+func main() {
+    _ = Dummy[]{}.Main[]()
+}

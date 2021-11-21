@@ -1,0 +1,58 @@
+package main;
+
+type Any[type] interface{};
+type Dummy[type] struct{};
+type int[type] struct{};
+type string_[type] struct{};
+
+type Vector[type a Any[]] struct {
+	elementData a;
+	elementCount int[]
+};
+
+func (v Vector[type a Any[]]) reverseElements[type]() Dummy[] {
+    x := v.elementData;
+    return Dummy[]{}
+};
+
+func (v Vector[type a Any[]]) get[type](i int[]) a {
+	return v.elementData
+};
+
+func (v Vector[type a Any[]]) set[type](i int[], x a) Dummy[] {
+    t := v.elementData;
+    u := x;
+	return Dummy[]{}
+};
+
+func (v Vector[type a Any[]]) size[type]() int[] {
+    x := v.elementData;
+	return int[]{}
+};
+
+func (this Dummy[type]) externalReverseElements[type a Any[]](a Vector[a]) Dummy[]{
+    x1 := a.size[]();
+    x2 := a.get[](int[]{});
+    x3 := a.set[](int[]{}, x2);
+    return Dummy[]{}
+};
+
+func (this Dummy[type]) x[type ](a Any[], b Any[]) Dummy[] {
+    return Dummy[]{}
+};
+
+
+
+func (this Dummy[type ]) Main1[type]() Dummy[] {
+    return Vector[int[]]{int[]{}, int[]{}}.reverseElements[]().externalReverseElements[int[]](Vector[int[]]{int[]{}, int[]{}})
+};
+
+func (this Dummy[type ]) Main2[type]() Dummy[] {
+    return Vector[string_[]]{string_[]{}, int[]{}}
+    .reverseElements[]()
+    .externalReverseElements[string_[]](Vector[string_[]]{string_[]{}, int[]{}})
+};
+
+func main() {
+    _ = Dummy[]{}.Main1[]().Main2[]()
+}

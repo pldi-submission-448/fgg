@@ -1,0 +1,145 @@
+package main
+
+import "fmt"
+import "strconv"
+
+type List[t comparable] interface {
+	Reverse() List[t]
+}
+
+
+type Cons[t comparable] struct {
+	head t
+	tail List[t]
+}
+
+func (this Cons[t]) Reverse() List[t] {
+	var xs List[t] = this
+	var ys List[t] = Nil[t]{}
+	for {
+		if _, ok := xs.(Nil[t]); ok {
+			return ys
+		}
+		if _xs, ok := xs.(Cons[t]); ok {
+			ys = Cons[t]{
+				head: _xs.head,
+				tail: ys,
+			}
+			xs = _xs.tail
+		}
+	}
+}
+
+
+type Nil[t comparable] struct {}
+
+func (this Nil[t]) Reverse() List[t] {
+	return this
+}
+
+func StaticReverse[t comparable](xs List[t]) List[t] {
+	var ys List[t] = Nil[t]{}
+	for {
+		if _, ok := xs.(Nil[t]); ok {
+			return ys
+		}
+		if _xs, ok := xs.(Cons[t]); ok {
+			ys = Cons[t]{
+				head: _xs.head,
+				tail: ys,
+			}
+			xs = _xs.tail
+		}
+	}
+}
+
+
+/*type List struct{
+	head int//T
+	tail *List
+}*/
+
+func (l Cons[t]) append(last t) List[t] {
+	var newTail List[t]
+	if _, ok := l.tail.(Nil[t]); ok {
+		newTail = Cons[t]{last, Nil[t]{}}
+	} else if _tail, ok := l.tail.(Cons[t]); ok {
+		newTail = _tail.append(last)
+	}
+	return Cons[t]{l.head, newTail}
+}
+
+func MakeListFromArray[t comparable](a []t) List[t] {
+	var xs List[t] = Nil[t]{}
+	for i := len(a) - 1; i >= 0; i-- {
+		xs = Cons[t]{
+			head: a[i],
+			tail: xs,
+		}
+	}
+	return xs
+}
+
+func BenchmarkStaticListReverse() {
+    fmt.Println(1)
+	const iterations = 10000
+	a := make([]int, iterations)
+	for i := 0; i < iterations; i++ {
+		a[i] = i
+	}
+	l := MakeListFromArray[int](a)
+	for i := 0; i < iterations; i++ {
+		if i %100 == 0 {
+			//fmt.Println(i)
+		}
+		l = StaticReverse(l)
+	}
+    fmt.Println(2)
+	a1 := make([]string, iterations)
+	for i := 0; i < iterations; i++ {
+		a1[i] = strconv.Itoa(i)
+	}
+	l1 := MakeListFromArray[string](a1)
+	for i := 0; i < iterations; i++ {
+		if i %100 == 0 {
+			//fmt.Println(i)
+		}
+		l1 = StaticReverse(l1)
+	}
+
+	//fmt.Println(l.(Cons[t]).head)
+}
+
+func BenchmarkInstanceListReverse() {
+    fmt.Println(3)
+    const iterations = 10000
+	a := make([]int, iterations)
+	for i := 0; i < iterations; i++ {
+		a[i] = i
+	}
+	l := MakeListFromArray[int](a)
+	for i := 0; i < iterations; i++ {
+		if i %100 == 0 {
+			//fmt.Println(i)
+		}
+		l = l.Reverse()
+	}
+    fmt.Println(4)
+	a1 := make([]string, iterations)
+	for i := 0; i < iterations; i++ {
+		a1[i] = strconv.Itoa(i)
+	}
+	l1 := MakeListFromArray[string](a1)
+	for i := 0; i < iterations; i++ {
+		if i %100 == 0 {
+			//fmt.Println(i)
+		}
+		l1 = l1.Reverse()
+	}
+    fmt.Println(5)
+}
+
+func main()  {
+	BenchmarkStaticListReverse()
+	BenchmarkInstanceListReverse()
+}

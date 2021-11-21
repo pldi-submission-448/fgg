@@ -1,0 +1,113 @@
+package main
+
+import "fmt"
+
+const TEST_SIZE = 3000000
+
+type any interface {}
+
+type List[t comparable] interface {
+	Contains(x t) bool
+}
+
+
+type Cons[t comparable] struct {
+	head t
+	tail List[t]
+}
+
+func (c Cons[t]) Contains(x t) bool {
+	var xs List[t] = c
+	for {
+		if xs_, ok := xs.(Cons[t]); ok {
+			if xs_.head == x {
+				return true
+			} else {
+				xs = xs_.tail
+			}
+		}
+		if _, ok := xs.(Nil[t]); ok {
+			return false
+		}
+	}
+}
+
+
+type Nil[t comparable] struct {}
+
+func (n Nil[t]) Contains(x t) bool {
+	return false
+}
+
+func ListInsert_int8() List[int8] {
+	var l List[int8] = Nil[int8]{}
+	for i := 0; i < TEST_SIZE; i++ {
+		l = Cons[int8]{
+			head: int8(1),
+			tail: l,
+		}
+	}
+	return l
+}
+
+func ListInsert_int32() List[int32] {
+	var l List[int32] = Nil[int32]{}
+	for i := 0; i < TEST_SIZE; i++ {
+		l = Cons[int32]{
+			head: int32(1),
+			tail: l,
+		}
+	}
+	return l
+}
+
+func ListInsert_int64() List[int64] {
+	var l List[int64] = Nil[int64]{}
+	for i := 0; i < TEST_SIZE; i++ {
+		l = Cons[int64]{
+			head: int64(1),
+			tail: l,
+		}
+	}
+	return l
+}
+
+func ListFind_int8(l List[int8]) bool {
+	b := true
+	for i := 0; i < TEST_SIZE; i+=10000 {
+		b = b != l.Contains(int8(i))
+	}
+	return b
+}
+
+func ListFind_int32(l List[int32]) bool {
+	b := true
+	for i := 0; i < TEST_SIZE; i+=10000 {
+		b = b != l.Contains(int32(i))
+	}
+	return b
+}
+
+func ListFind_int64(l List[int64]) bool {
+	b := true
+	for i := 0; i < TEST_SIZE; i+=10000 {
+		b = b != l.Contains(int64(i))
+	}
+	return b
+}
+
+func main() {
+	fmt.Println(1)
+	l := ListInsert_int8()
+	fmt.Println(2)
+	ListFind_int8(l)
+	fmt.Println(3)
+    l2 := ListInsert_int32()
+    fmt.Println(2)
+    ListFind_int32(l2)
+    fmt.Println(3)
+    l3 := ListInsert_int64()
+    fmt.Println(2)
+    ListFind_int64(l3)
+    fmt.Println(3)
+}

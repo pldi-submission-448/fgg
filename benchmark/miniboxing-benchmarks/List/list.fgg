@@ -1,0 +1,73 @@
+package main;
+
+type Any[type] interface{};
+type Dummy[type] struct{};
+type int[type] struct{};
+type long[type] struct{};
+type double[type] struct{};
+type bool_[type] struct{};
+
+func (this Dummy[type]) x[type ](a Any[], b Any[]) Dummy[] {
+    return Dummy[]{}
+};
+
+
+type List[type a Any[]] interface {
+	Contains[type ](x a) bool_[]
+};
+
+
+type Cons[type a Any[]] struct {
+	head a;
+	tail List[a]
+};
+
+func (c Cons[type a Any[]]) Contains[type ](x a) bool_[] {
+    t1 := c.tail.(Cons[a]);
+    t2 := c.tail.(Nil[a]);
+    return bool_[]{}
+};
+
+
+type Nil[type a Any[]] struct {};
+
+func (n Nil[type a Any[]]) Contains[type ](x a) bool_[] {
+    return bool_[]{}
+};
+
+func (d Dummy[type]) ListInsert[type a Any[]](x a) List[a] {
+    t1 := Nil[a]{};
+    t2 := Cons[a]{x, t1};
+    return t2
+};
+
+func (d Dummy[type]) ListFind[type a Any[]](x a, l List[a]) bool_[] {
+    t1 := l.Contains[](x);
+    return bool_[]{}
+};
+
+
+func (this Dummy[type ]) Main1[type]() Dummy[] {
+    d := Dummy[]{};
+    t1 := d.ListInsert[int[]](int[]{});
+    t2 := d.ListFind[int[]](int[]{}, t1);
+    return this
+};
+
+func (this Dummy[type ]) Main2[type]() Dummy[] {
+    d := Dummy[]{};
+    t1 := d.ListInsert[long[]](long[]{});
+    t2 := d.ListFind[long[]](long[]{}, t1);
+    return this
+};
+
+func (this Dummy[type ]) Main3[type]() Dummy[] {
+    d := Dummy[]{};
+    t1 := d.ListInsert[double[]](double[]{});
+    t2 := d.ListFind[double[]](double[]{}, t1);
+    return this
+};
+
+func main() {
+    _ = Dummy[]{}.Main1[]().Main2[]().Main3[]()
+}

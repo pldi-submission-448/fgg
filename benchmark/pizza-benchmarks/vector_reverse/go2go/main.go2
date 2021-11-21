@@ -1,0 +1,117 @@
+package main
+
+import "strconv"
+import "fmt"
+
+type Vector[t comparable] struct {
+	elementData []t
+	elementCount int
+}
+
+func (v *Vector[t]) reverseElements() {
+	for i := 0; i < v.elementCount / 2; i++ {
+		e := v.elementData[v.elementCount -i - 1]
+		v.elementData[v.elementCount -i -1] = v.elementData[i]
+		v.elementData[i] = e
+	}
+}
+
+func (v *Vector[t]) get(i int) t/*T*/ {
+	return v.elementData[i]
+}
+
+func (v *Vector[t]) set(i int, x t) {
+	v.elementData[i] = x
+}
+
+func (v *Vector[t]) size() int {
+	return len(v.elementData)
+}
+
+func externalReverseElements[t comparable](v *Vector[t]) {
+	for i := 0; i < v.size() / 2; i++ {
+		e := v.get(v.size() -i -1)
+		v.set(v.size() -i -1, v.get(i))
+		v.set(i, e)
+	}
+}
+
+func BenchmarkVectorReverse_int() {
+	const iterations = 10000
+	v := Vector[int]{
+		elementData:  make([]int, iterations),
+		elementCount: iterations,
+	}
+	for i := 0; i < iterations; i++ {
+		v.set(i, i)
+	}
+	for i := 0; i < iterations; i++ {
+		if i %100 == 0 {
+			//fmt.Println(i)
+		}
+		v.reverseElements()
+	}
+}
+
+func BenchmarkVectorReverse_string() {
+	const iterations = 10000
+	v := Vector[string]{
+		elementData:  make([]string, iterations),
+		elementCount: iterations,
+	}
+	for i := 0; i < iterations; i++ {
+		v.set(i, strconv.Itoa(i))
+	}
+	for i := 0; i < iterations; i++ {
+		if i %100 == 0 {
+			//fmt.Println(i)
+		}
+		v.reverseElements()
+	}
+}
+
+func BenchmarkStaticVectorReverse_int() {
+	const iterations = 10000
+	v := Vector[int]{
+		elementData:  make([]int, iterations),
+		elementCount: iterations,
+	}
+	for i := 0; i < iterations; i++ {
+		v.set(i, i)
+	}
+	for i := 0; i < iterations; i++ {
+		if i %100 == 0 {
+			//fmt.Println(i)
+		}
+		externalReverseElements(&v)
+	}
+}
+
+func BenchmarkStaticVectorReverse_string() {
+	const iterations = 10000
+	v := Vector[string]{
+		elementData:  make([]string, iterations),
+		elementCount: iterations,
+	}
+	for i := 0; i < iterations; i++ {
+		v.set(i, strconv.Itoa(i))
+	}
+	for i := 0; i < iterations; i++ {
+		if i %100 == 0 {
+			//fmt.Println(i)
+		}
+		externalReverseElements(&v)
+	}
+}
+
+func main() {
+fmt.Println(1)
+BenchmarkVectorReverse_int()
+fmt.Println(2)
+BenchmarkVectorReverse_string()
+fmt.Println(3)
+BenchmarkStaticVectorReverse_int()
+fmt.Println(4)
+BenchmarkStaticVectorReverse_string()
+fmt.Println(5)
+}
