@@ -3,6 +3,11 @@
 ---
 This implementation is forked from https://github.com/rhu1/fgg.
 
+## Install
+```
+GO111MODULE=off go get github.com/pldi-submission-448/fgg
+```
+
 ## Translating dispatcher.fgg
 ```shell script
 go run . -fgg -dynamic -- dispatcher.fgg
@@ -11,6 +16,7 @@ go run . -fgg -dictpassnoassertion -- dispatcher.fgg
 ```
 
 ##Micro Benchmark 
+
 We assume the GOPATH is `~/go`.
 
 After running `go install .`, there should be an executable file 
